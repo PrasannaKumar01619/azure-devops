@@ -36,7 +36,7 @@ stages:
 - stage: Prod_deploy
   dependsOn: 
   - Test
-  - QA-deploy
+  - QA_deploy
   jobs:
   - job: job1
     steps:
