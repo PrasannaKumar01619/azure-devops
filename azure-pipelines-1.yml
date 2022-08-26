@@ -26,14 +26,14 @@ stages:
     steps:
     - script: echo Test 
 
-- stage: QA-deploy 
+- stage: QA_deploy 
   dependsOn: Build
   jobs:
     - job: job1
       steps:
       - script: echo QA-deploy
 
-- stage: Prod-deploy
+- stage: Prod_deploy
   dependsOn: 
   - Test
   - QA-deploy
