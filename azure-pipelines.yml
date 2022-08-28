@@ -6,40 +6,36 @@
 trigger:
 - master
 
-
-strategy:
-  matrix:
-    linux:
-      operatingSystem: 'ubuntu-latest'
-    windows:
-      operatingSystem: 'windowsos-latest'
 pool:
-  vmImage: $(operatingSystem)
+  vmImage: 'ubuntu-latest'
 
-jobs:
-- job: Job1
- 
-  steps:
-  - script: echo job-1 Hello, world changed!
-    displayName: 'Run a one-line script'
+stages:
+  - stage: Build
+    jobs:
+     - job: Build
+       steps:
+         - bash: echo 'Build'
+  
+  - stage: DevDeploy
+    jobs:
+      - deployment: DevDeployJob
+        environment: Dev
+        strategy:
+         runOnce:
+           deploy:
+             steps:
+               - bash: echo devdeploy
 
-  - script: |
-      echo Add other tasks to build, test, and deploy your project.
-      echo See https://aka.ms/yaml
-    displayName: 'Run a multi-line script'
+  - stage: QADeploy
+    jobs:
+      - deployment: QADeployJob
+        environment: QA
+        strategy:
+         runOnce:
+           deploy:
+             steps:
+               - bash: echo QAdeploy             
 
-- job: Job2
-  dependsOn: Job1
-  steps:
-  - script: echo job-2
-    displayName: 'Run a one-line script'
 
-- job: Job3
-  dependsOn: Job2
-  steps:
-  - script: |
-       echo job-3
-       echo another multiline
-    displayName: 'Run a script'
 
 
