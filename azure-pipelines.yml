@@ -6,8 +6,15 @@
 trigger:
 - master
 
+
+strategy:
+  matrix:
+    linux:
+      operatingSystem: 'ubuntu-latest'
+    windows:
+      operatingSystem: 'windowsos-latest'
 pool:
-  vmImage: ubuntu-latest
+  vmImage: $(operatingSystem)
 
 jobs:
 - job: Job1
